@@ -1,5 +1,7 @@
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse, get_object_or_404
+from django.views import View
 from django.views.generic import CreateView, TemplateView, DeleteView, UpdateView, DetailView
 
 from crud_with_cbv.forms import StudentForm
@@ -37,8 +39,17 @@ class StudentEdit(SuccessMessageMixin, UpdateView):
         return self.object.get_absolute_url()
 
 
-class StudentStatus(SuccessMessageMixin, DetailView):
-    pass
+class StudentStatus(View):
+    def get(self, request, pk):
+        student_data = get_object_or_404(StudentModel, pk=pk)
+        if student_data.status == 'Active':
+            student_data.status = 'Inactive'
+            messages.success(request, 'Student Status Changed Into Inactive')
+        else:
+            student_data.status = 'Active'
+            messages.success(request, 'Student Status Changed Into Active')
+        student_data.save()
+        return HttpResponseRedirect(reverse('home-view'))
 
 
 class StudentDelete(DeleteView):
