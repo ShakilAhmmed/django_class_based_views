@@ -14,8 +14,44 @@ from django.contrib import messages
 
 class IndexView(TemplateView):
     template_name = 'crud_with_cbv/home.html'
+    
+#Handle Mutiple Form
+# class CreateStudentView(View):
+# form = StudentForm
+# address_form = StudentAddressForm
+# template_name = 'crud_with_cbv/index.html'
 
+# def get(self, request):
+#     form = self.form(None)
+#     address_form = self.address_form(None)
 
+#     context = {
+#         'form': form,
+#         'address_form': address_form,
+#         'student_list': StudentModel.objects.all()
+#     }
+#     return render(request, self.template_name, context)
+
+# def post(self, request):
+#     form = self.form(request.POST)
+#     address_form = self.address_form(request.POST)
+
+#     if form.is_valid():
+#         form_save = form.save()
+#         form_address_save = address_form.save(commit=False)
+#         form_address_save.student = form_save
+#         if address_form.is_valid():
+#             form_address_save.save()
+#         messages.success(request, 'Student Added Successfully')
+#         return HttpResponseRedirect(reverse('home-view'))
+#     context = {
+#         'form': form,
+#         'address_form': address_form,
+#         'student_list': StudentModel.objects.all()
+#     }
+#     return render(request, self.template_name, context)
+
+#Handle Single Form
 class CreateStudentView(SuccessMessageMixin, CreateView):
     model = StudentModel
     form_class = StudentForm
